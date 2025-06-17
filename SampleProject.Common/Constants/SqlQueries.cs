@@ -8,7 +8,7 @@ namespace SampleProject.Common.Constants
 {
     public static class SqlQueries
     {
-        public const string GetAllDoctors = "SELECT * FROM Doctor WITH(NOLOCK)";
-        public const string GetDoctorByID = "SELECT * FROM Doctor WITH(NOLOCK) WHERE DoctorId = @Id";
+        public static string GetAllDoctors = "SELECT * FROM Doctor WITH(NOLOCK)";
+        public static string GetDoctorByID = "SELECT * FROM Doctor WITH(NOLOCK) WHERE DoctorId = @Id";
     }
 }

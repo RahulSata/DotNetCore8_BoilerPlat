@@ -20,10 +20,10 @@ namespace SampleProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<List<DoctorDto>> GetAll()
         {
             var doctors = await _doctorService.GetAllDoctors();
-            return Ok(_mapper.Map<List<DoctorDto>>(doctors));
+            return _mapper.Map<List<DoctorDto>>(doctors);
         }
 
         [HttpGet("{id}")]
