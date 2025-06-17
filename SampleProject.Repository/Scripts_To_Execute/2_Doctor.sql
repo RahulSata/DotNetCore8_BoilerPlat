@@ -1,4 +1,6 @@
 -- This is not used for migration, Just script to execute in ssms before project load
+USE [BoilerPlate]
+
 CREATE TABLE Doctor  (
     DoctorId INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(100),
