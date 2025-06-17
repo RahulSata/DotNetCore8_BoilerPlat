@@ -1,15 +1,33 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SampleProject.API.Mappings;
 using SampleProject.Repository.Context;
 using SampleProject.Repository.Implementations;
 using SampleProject.Repository.Interfaces;
 using SampleProject.Service.Implementations;
 using SampleProject.Service.Interfaces;
+using Serilog;
+using Serilog.Formatting.Json;
 using System.Data;
-using AutoMapper;
-using SampleProject.API.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "log.txt");
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(new Serilog.Formatting.Json.JsonFormatter())
+    .WriteTo.File(new JsonFormatter(), "logs/log.json", rollingInterval: RollingInterval.Day)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+
+Log.Information("App starting...");
+
+Console.WriteLine($"Logging to: {logPath}");
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -33,3 +51,4 @@ app.UseSwaggerUI();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

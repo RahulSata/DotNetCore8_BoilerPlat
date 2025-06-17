@@ -1,10 +1,11 @@
-﻿using SampleProject.Common.Models.Entities;
-using System.Data;
-using Dapper;
-using SampleProject.Repository.Interfaces;
-using SampleProject.Common.Constants;
+﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SampleProject.Common.Constants;
+using SampleProject.Common.Models.Entities;
 using SampleProject.Repository.Context;
+using SampleProject.Repository.Interfaces;
+using System.Data;
 
 
 namespace SampleProject.Repository.Implementations
@@ -13,15 +14,17 @@ namespace SampleProject.Repository.Implementations
     {
         private readonly IDbConnection _db;
         private readonly AppDbContext _context;
-
-        public DoctorRepository(IDbConnection db, AppDbContext context)
+        private readonly ILogger<DoctorRepository> _logger;
+        public DoctorRepository(IDbConnection db, AppDbContext context, ILogger<DoctorRepository> logger)
         {
             _db = db;
             _context = context;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Doctor>> GetAllDoctors()
         {
+            _logger.LogInformation($"Fetching Doctors from the database at {DateTime.UtcNow}");
             return await _db.QueryAsync<Doctor>(SqlQueries.GetAllDoctors);
         }
 

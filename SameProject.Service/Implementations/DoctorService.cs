@@ -1,4 +1,6 @@
-﻿using SampleProject.Common.Models.Entities;
+﻿using Microsoft.Extensions.Logging;
+using SampleProject.Common.Models.Entities;
+using SampleProject.Repository.Implementations;
 using SampleProject.Repository.Interfaces;
 using SampleProject.Service.Interfaces;
 using System;
@@ -12,14 +14,17 @@ namespace SampleProject.Service.Implementations
     public class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _doctorRepository;
+        private readonly ILogger<DoctorService> _logger;
 
-        public DoctorService(IDoctorRepository doctorRepository)
+        public DoctorService(IDoctorRepository doctorRepository, ILogger<DoctorService> logger)
         {
             _doctorRepository = doctorRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Doctor>> GetAllDoctors()
         {
+            _logger.LogInformation($"Fetching Doctors from the repository method at {DateTime.UtcNow}");
             return await _doctorRepository.GetAllDoctors();
         }
 
