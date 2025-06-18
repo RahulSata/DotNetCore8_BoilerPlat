@@ -9,7 +9,10 @@ using System.Net;
 namespace SampleProject.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+
     public class DoctorController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
@@ -21,8 +24,18 @@ namespace SampleProject.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<BaseAPIResponse<List<DoctorDto>>> GetAll()
+        [HttpGet("all")]
+        [MapToApiVersion("1.0")]
+        public async Task<BaseAPIResponse<List<DoctorDto>>> GetAllV1()
+        {
+            var doctors = await _doctorService.GetAllDoctors();
+            var doctorDtos = _mapper.Map<List<DoctorDto>>(doctors);
+            return BaseAPIResponse<List<DoctorDto>>.SuccessResponse(doctorDtos);
+        }
+
+        [HttpGet("all")]
+        [MapToApiVersion("2.0")]
+        public async Task<BaseAPIResponse<List<DoctorDto>>> GetAllV2()
         {
             var doctors = await _doctorService.GetAllDoctors();
             var doctorDtos = _mapper.Map<List<DoctorDto>>(doctors);
