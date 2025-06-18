@@ -12,6 +12,9 @@ namespace SampleProject.Repository.Context
         {
         }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Company> companies { get; set; }
+        public DbSet<Job> jobs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

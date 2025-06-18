@@ -1,0 +1,15 @@
+﻿using SampleProject.Common.Models.DTOs;
+using SampleProject.Common.Models.Entities;
+using AutoMapper;
+
+namespace SampleProject.API.Mappings
+{
+    public class JobMappingProfile : Profile
+    {
+        public JobMappingProfile()
+        {
+            CreateMap<JobDto, Job>().ReverseMap();
+        }
+    }
+
+}

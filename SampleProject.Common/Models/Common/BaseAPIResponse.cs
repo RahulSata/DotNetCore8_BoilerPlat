@@ -17,7 +17,7 @@ namespace SampleProject.Common.Models.Common
         public static BaseAPIResponse<T> SuccessResponse(T data) =>
             new BaseAPIResponse<T> { Data = data, StatusCode = HttpStatusCode.OK };
 
-        public static BaseAPIResponse<T> ErrorResponse(string error, HttpStatusCode StatusCode) =>
-            new BaseAPIResponse<T> { Success = false, Error = error };
+        public static BaseAPIResponse<T> ErrorResponse(string error, HttpStatusCode statusCode) =>
+            new BaseAPIResponse<T> { Success = false, Error = error, StatusCode = statusCode };
     }
 }
