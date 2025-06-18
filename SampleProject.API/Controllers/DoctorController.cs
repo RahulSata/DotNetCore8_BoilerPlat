@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SampleProject.Common.Models.Common;
 using SampleProject.Common.Models.DTOs;
 using SampleProject.Common.Models.Entities;
 using SampleProject.Service.Interfaces;
+using System.Net;
 
 namespace SampleProject.API.Controllers
 {
@@ -20,25 +22,48 @@ namespace SampleProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<DoctorDto>> GetAll()
+        public async Task<BaseAPIResponse<List<DoctorDto>>> GetAll()
         {
-            var doctors = await _doctorService.GetAllDoctors();
-            return _mapper.Map<List<DoctorDto>>(doctors);
+            try
+            {
+                var doctors = await _doctorService.GetAllDoctors();
+                var doctorDtos = _mapper.Map<List<DoctorDto>>(doctors);
+                return BaseAPIResponse<List<DoctorDto>>.SuccessResponse(doctorDtos);
+            }
+            catch (Exception ex)
+            {
+                return BaseAPIResponse<List<DoctorDto>>.ErrorResponse($"An error occurred while fetching doctors: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<BaseAPIResponse<DoctorDto>> GetById(int id)
         {
-            var doctor = await _doctorService.GetDoctorByID(id);
-            return doctor == null ? NotFound() : Ok(_mapper.Map<DoctorDto>(doctor));
+            try
+            {
+                var doctor = await _doctorService.GetDoctorByID(id);
+                var doctorDto = _mapper.Map<DoctorDto>(doctor);
+                return BaseAPIResponse<DoctorDto>.SuccessResponse(doctorDto);
+            }
+            catch (Exception ex)
+            {
+                return BaseAPIResponse<DoctorDto>.ErrorResponse($"An error occurred while fetching doctor by ID: {id} with: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DoctorDto doctorDto)
+        public async Task<BaseAPIResponse<int>> Create(DoctorDto doctorDto)
         {
-            var doctor = _mapper.Map<Doctor>(doctorDto);
-            var id = await _doctorService.AddDoctor(doctor);
-            return CreatedAtAction(nameof(GetById), new { id }, doctor);
+            try
+            {
+                var doctor = _mapper.Map<Doctor>(doctorDto);
+                var id = await _doctorService.AddDoctor(doctor);
+                return BaseAPIResponse<int>.SuccessResponse(id);
+            }
+            catch (Exception ex)
+            {
+                return BaseAPIResponse<int>.ErrorResponse($"An error occurred while creating doctor with Name: {doctorDto.Name} with: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

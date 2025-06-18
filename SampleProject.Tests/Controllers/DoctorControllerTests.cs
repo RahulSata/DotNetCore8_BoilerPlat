@@ -54,9 +54,10 @@ namespace SampleProject.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.AreEqual("Dr. Rahul", result[0].Name);
-            Assert.AreEqual("Dr. Sata", result[1].Name);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual(2, result.Data.Count);
+            Assert.AreEqual("Dr. Rahul", result.Data[0].Name);
+            Assert.AreEqual("Dr. Sata", result.Data[1].Name);
         }
     }
 }
