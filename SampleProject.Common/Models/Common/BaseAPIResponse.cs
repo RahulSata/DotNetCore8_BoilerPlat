@@ -9,7 +9,7 @@ namespace SampleProject.Common.Models.Common
 {
     public class BaseAPIResponse<T>
     {
-        public bool Success { get; set; }
+        public bool Success { get; set; } = true;
         public T Data { get; set; }
         public string Error { get; set; }
         public HttpStatusCode StatusCode { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SampleProject.API.Mappings;
+using SampleProject.API.Middlewares;
 using SampleProject.Repository.Context;
 using SampleProject.Repository.Implementations;
 using SampleProject.Repository.Interfaces;
@@ -48,6 +49,7 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

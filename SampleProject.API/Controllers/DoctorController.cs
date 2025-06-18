@@ -24,46 +24,25 @@ namespace SampleProject.API.Controllers
         [HttpGet]
         public async Task<BaseAPIResponse<List<DoctorDto>>> GetAll()
         {
-            try
-            {
-                var doctors = await _doctorService.GetAllDoctors();
-                var doctorDtos = _mapper.Map<List<DoctorDto>>(doctors);
-                return BaseAPIResponse<List<DoctorDto>>.SuccessResponse(doctorDtos);
-            }
-            catch (Exception ex)
-            {
-                return BaseAPIResponse<List<DoctorDto>>.ErrorResponse($"An error occurred while fetching doctors: {ex.Message}", HttpStatusCode.InternalServerError);
-            }
+            var doctors = await _doctorService.GetAllDoctors();
+            var doctorDtos = _mapper.Map<List<DoctorDto>>(doctors);
+            return BaseAPIResponse<List<DoctorDto>>.SuccessResponse(doctorDtos);
         }
 
         [HttpGet("{id}")]
         public async Task<BaseAPIResponse<DoctorDto>> GetById(int id)
         {
-            try
-            {
-                var doctor = await _doctorService.GetDoctorByID(id);
-                var doctorDto = _mapper.Map<DoctorDto>(doctor);
-                return BaseAPIResponse<DoctorDto>.SuccessResponse(doctorDto);
-            }
-            catch (Exception ex)
-            {
-                return BaseAPIResponse<DoctorDto>.ErrorResponse($"An error occurred while fetching doctor by ID: {id} with: {ex.Message}", HttpStatusCode.InternalServerError);
-            }
+            var doctor = await _doctorService.GetDoctorByID(id);
+            var doctorDto = _mapper.Map<DoctorDto>(doctor);
+            return BaseAPIResponse<DoctorDto>.SuccessResponse(doctorDto);
         }
 
         [HttpPost]
         public async Task<BaseAPIResponse<int>> Create(DoctorDto doctorDto)
         {
-            try
-            {
-                var doctor = _mapper.Map<Doctor>(doctorDto);
-                var id = await _doctorService.AddDoctor(doctor);
-                return BaseAPIResponse<int>.SuccessResponse(id);
-            }
-            catch (Exception ex)
-            {
-                return BaseAPIResponse<int>.ErrorResponse($"An error occurred while creating doctor with Name: {doctorDto.Name} with: {ex.Message}", HttpStatusCode.InternalServerError);
-            }
+            var doctor = _mapper.Map<Doctor>(doctorDto);
+            var id = await _doctorService.AddDoctor(doctor);
+            return BaseAPIResponse<int>.SuccessResponse(id);
         }
     }
 }
