@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_CLI_TELEMETRY_OPTOUT = 1
-        BUILD_DIR = 'build_output'
-    }
+		DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+		BUILD_DIR = 'build_output'
+	}
+
 
     stages {
         stage('Checkout') {
@@ -15,19 +16,19 @@ pipeline {
 
         stage('Restore') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build --configuration Release'
+				bat 'dotnet build --configuration Release'
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish --configuration Release -o $BUILD_DIR'
+                bat 'dotnet publish --configuration Release -o %BUILD_DIR%'
             }
         }
 
